@@ -45,15 +45,11 @@ def get_user_tickets(user):
         'admin',
         'employee'
     ]:
-
         return Ticket.objects.all()
-
     # User видит только свои
     return Ticket.objects.filter(
         user=user
     )
-
-
 
 def index(request):
 
@@ -61,8 +57,6 @@ def index(request):
         request,
         'classifier/index.html'
     )
-
-
 
 @login_required
 def dashboard(request):
@@ -72,49 +66,32 @@ def dashboard(request):
     ).order_by('-created_at')
 
     total_tickets = tickets.count()
-
     new_tickets = tickets.filter(
         status='new'
     ).count()
-
     in_progress_tickets = tickets.filter(
         status='in_progress'
     ).count()
-
     done_tickets = tickets.filter(
         status='done'
     ).count()
-
     critical_tickets = tickets.filter(
         priority='critical'
     ).count()
-
     recent_tickets = tickets[:5]
-
     context = {
-
         'total_tickets': total_tickets,
-
         'new_tickets': new_tickets,
-
         'in_progress_tickets': in_progress_tickets,
-
         'done_tickets': done_tickets,
-
         'critical_tickets': critical_tickets,
-
         'recent_tickets': recent_tickets,
-
     }
 
     return render(
-
         request,
-
         'classifier/dashboard.html',
-
         context
-
     )
 
 
@@ -178,20 +155,13 @@ def history(request):
     tickets = get_user_tickets(
         request.user
     )
-
     # Поиск
     search_query = request.GET.get('q')
-
     if search_query:
-
         tickets = tickets.filter(
-
             Q(text__icontains=search_query)
-
             |
-
             Q(predicted_category__icontains=search_query)
-
         )
 
     # Фильтр статуса
@@ -223,31 +193,19 @@ def history(request):
     )
 
     page_number = request.GET.get('page')
-
     tickets = paginator.get_page(
         page_number
     )
-
     context = {
-
         'tickets': tickets,
-
         'search_query': search_query,
-
         'selected_status': status,
-
         'selected_priority': priority,
-
     }
-
     return render(
-
         request,
-
         'classifier/history.html',
-
         context
-
     )
 
 
@@ -263,29 +221,37 @@ def register_view(request):
             user.role = 'user'
             user.is_active = False
             user.save()
-            uid = urlsafe_base64_encode(
-                force_bytes(user.pk)
-            )
-            token = (
-                email_verification_token.make_token(
-                    user
-                )
-            )
-            verification_link = (
-                f'http://127.0.0.1:8000/verify-email/{uid}/{token}/'
-            )
-            send_mail(
-                'Подтверждение регистрации',
-                f'Перейдите по ссылке для подтверждения аккаунта:\n\n{verification_link}',
-                None,
-                [user.email],
-                fail_silently=False,
-            )
+            user.is_active = True
+
             messages.success(
                 request,
-                'Письмо подтверждения отправлено на email'
+                'Регистрация выполнена успешно'
             )
+
             return redirect('/login/')
+            # uid = urlsafe_base64_encode(
+            #     force_bytes(user.pk)
+            # )
+            # token = (
+            #     email_verification_token.make_token(
+            #         user
+            #     )
+            # )
+            # verification_link = (
+            #     f'http://127.0.0.1:8000/verify-email/{uid}/{token}/'
+            # )
+            # send_mail(
+            #     'Подтверждение регистрации',
+            #     f'Перейдите по ссылке для подтверждения аккаунта:\n\n{verification_link}',
+            #     None,
+            #     [user.email],
+            #     fail_silently=False,
+            # )
+            # messages.success(
+            #     request,
+            #     'Письмо подтверждения отправлено на email'
+            # )
+            # return redirect('/login/')
     else:
         form = RegisterForm()
     return render(
@@ -300,57 +266,31 @@ def register_view(request):
 def login_view(request):
 
     if request.user.is_authenticated:
-
         return redirect('/dashboard/')
-
     if request.method == 'POST':
-
         form = LoginForm(
-
             request,
-
             data=request.POST
-
         )
-
         if form.is_valid():
-
             user = form.get_user()
-
             login(
-
                 request,
-
                 user
-
             )
-
             messages.success(
-
                 request,
-
                 'Вы успешно вошли в систему'
-
             )
-
             return redirect('/dashboard/')
-
     else:
-
         form = LoginForm()
-
     return render(
-
         request,
-
         'classifier/login.html',
-
         {
-
             'form': form
-
         }
-
     )
 
 
@@ -359,15 +299,10 @@ def login_view(request):
 def logout_view(request):
 
     logout(request)
-
     messages.info(
-
         request,
-
         'Вы вышли из аккаунта'
-
     )
-
     return redirect('/')
 
 
@@ -379,21 +314,13 @@ def admin_panel(request):
     tickets = Ticket.objects.all().order_by(
         '-created_at'
     )
-
     context = {
-
         'tickets': tickets
-
     }
-
     return render(
-
         request,
-
         'classifier/admin_panel.html',
-
         context
-
     )
 
 
@@ -401,9 +328,7 @@ def admin_panel(request):
 def profile(request):
 
     tickets = Ticket.objects.filter(
-
         user=request.user
-
     ).order_by('-created_at')
 
     total_tickets = tickets.count()
@@ -411,27 +336,16 @@ def profile(request):
     done_tickets = tickets.filter(
         status='done'
     ).count()
-
     context = {
-
         'tickets': tickets,
-
         'total_tickets': total_tickets,
-
         'done_tickets': done_tickets,
-
     }
-
     return render(
-
         request,
-
         'classifier/profile.html',
-
         context
-
     )
-
 
 @login_required
 @staff_required
