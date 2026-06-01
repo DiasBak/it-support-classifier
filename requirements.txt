@@ -17,7 +17,6 @@ filelock==3.29.0
 frozenlist==1.8.0
 fsspec==2026.2.0
 googletrans==4.0.2
-gunicorn==26.0.0
 h11==0.16.0
 h2==4.3.0
 hf-xet==1.4.3
@@ -67,3 +66,4 @@ tzdata==2026.2
 urllib3==2.6.3
 xxhash==3.7.0
 yarl==1.23.0
+gunicorn==23.0.0
