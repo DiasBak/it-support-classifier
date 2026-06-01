@@ -1,0 +1,506 @@
+{% extends "classifier/base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h1 class="fw-bold mb-1">
+                Dashboard
+            </h1>
+
+            <p class="text-muted mb-0">
+                Система обработки IT-обращений
+            </p>
+
+        </div>
+
+        <a href="/classify/"
+           class="btn btn-primary btn-lg shadow-sm rounded-3">
+
+            <i class="bi bi-plus-circle"></i>
+            Новое обращение
+
+        </a>
+
+    </div>
+
+
+    <!-- KPI Cards -->
+    <div class="row g-4 mb-4">
+
+        <!-- Total -->
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <div class="text-muted mb-2">
+                                Всего обращений
+                            </div>
+
+                            <h2 class="fw-bold">
+                                {{ total_tickets }}
+                            </h2>
+
+                        </div>
+
+                        <i class="bi bi-ticket-perforated text-primary"
+                           style="font-size: 42px;">
+                        </i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- New -->
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <div class="text-muted mb-2">
+                                Новые
+                            </div>
+
+                            <h2 class="fw-bold text-warning">
+                                {{ new_tickets }}
+                            </h2>
+
+                        </div>
+
+                        <i class="bi bi-exclamation-circle text-warning"
+                           style="font-size: 42px;">
+                        </i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- In Progress -->
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <div class="text-muted mb-2">
+                                В обработке
+                            </div>
+
+                            <h2 class="fw-bold text-info">
+                                {{ in_progress_tickets }}
+                            </h2>
+
+                        </div>
+
+                        <i class="bi bi-arrow-repeat text-info"
+                           style="font-size: 42px;">
+                        </i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Done -->
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <div class="text-muted mb-2">
+                                Завершено
+                            </div>
+
+                            <h2 class="fw-bold text-success">
+                                {{ done_tickets }}
+                            </h2>
+
+                        </div>
+
+                        <i class="bi bi-check-circle text-success"
+                           style="font-size: 42px;">
+                        </i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Admin Block -->
+    {% if request.user.role == 'admin' %}
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-lg-4">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <div class="text-muted mb-2">
+                                Критические обращения
+                            </div>
+
+                            <h2 class="fw-bold text-danger">
+                                {{ critical_tickets }}
+                            </h2>
+
+                        </div>
+
+                        <i class="bi bi-fire text-danger"
+                           style="font-size: 42px;">
+                        </i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- Chart -->
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+        <div class="card-body p-4">
+
+            <h4 class="fw-bold mb-4">
+                Статистика обращений
+            </h4>
+
+            <canvas id="ticketsChart"></canvas>
+
+        </div>
+
+    </div>
+
+
+    <!-- Main Content -->
+    <div class="row g-4">
+
+        <!-- Recent Tickets -->
+        <div class="col-lg-8">
+
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-header bg-white border-0 p-4">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <h4 class="fw-bold mb-0">
+                            Последние обращения
+                        </h4>
+
+                        <a href="/history/"
+                           class="btn btn-sm btn-outline-dark rounded-3">
+
+                            Вся история
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <div class="card-body">
+
+                    {% for ticket in recent_tickets %}
+
+                    <div class="border rounded-4 p-3 mb-3">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+
+                                <div class="fw-bold mb-2">
+
+                                    #{{ ticket.id }}
+
+                                </div>
+
+                                <span class="badge bg-primary">
+
+                                    {{ ticket.predicted_category }}
+
+                                </span>
+
+                            </div>
+
+                            <div>
+
+                                {% if ticket.status == 'new' %}
+
+                                    <span class="badge bg-warning text-dark">
+                                        Новое
+                                    </span>
+
+                                {% elif ticket.status == 'in_progress' %}
+
+                                    <span class="badge bg-info">
+                                        В обработке
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-success">
+                                        Завершено
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                        <div class="mt-3 text-muted">
+
+                            {{ ticket.text|truncatechars:120 }}
+
+                        </div>
+
+                        <div class="mt-3 d-flex justify-content-between align-items-center">
+
+                            <small class="text-muted">
+
+                                {{ ticket.created_at|date:"d.m.Y H:i" }}
+
+                            </small>
+
+                            <a href="/ticket/{{ ticket.id }}/"
+                               class="btn btn-sm btn-outline-primary rounded-3">
+
+                                Подробнее
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                    {% empty %}
+
+                    <div class="text-center py-5 text-muted">
+
+                        <i class="bi bi-inbox"
+                           style="font-size: 52px;">
+                        </i>
+
+                        <div class="mt-3">
+                            Обращений пока нет
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- System Info -->
+        <div class="col-lg-4">
+
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-header bg-white border-0 p-4">
+
+                    <h4 class="fw-bold mb-0">
+                        Информация о системе
+                    </h4>
+
+                </div>
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex mb-4">
+
+                        <div class="me-3">
+
+                            <div class="bg-primary rounded-circle"
+                                 style="
+                                    width: 12px;
+                                    height: 12px;
+                                    margin-top: 7px;
+                                 ">
+                            </div>
+
+                        </div>
+
+                        <div>
+
+                            <div class="fw-semibold">
+                                Автоматическая классификация
+                            </div>
+
+                            <small class="text-muted">
+                                Обращения распределяются по категориям
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="d-flex mb-4">
+
+                        <div class="me-3">
+
+                            <div class="bg-success rounded-circle"
+                                 style="
+                                    width: 12px;
+                                    height: 12px;
+                                    margin-top: 7px;
+                                 ">
+                            </div>
+
+                        </div>
+
+                        <div>
+
+                            <div class="fw-semibold">
+                                ML модель
+                            </div>
+
+                            <small class="text-muted">
+                                TF-IDF + LinearSVC
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="d-flex">
+
+                        <div class="me-3">
+
+                            <div class="bg-warning rounded-circle"
+                                 style="
+                                    width: 12px;
+                                    height: 12px;
+                                    margin-top: 7px;
+                                 ">
+                            </div>
+
+                        </div>
+
+                        <div>
+
+                            <div class="fw-semibold">
+                                Система обработки заявок
+                            </div>
+
+                            <small class="text-muted">
+                                Управление статусами и приоритетами
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const newTickets = Number('{{ new_tickets }}');
+const progressTickets = Number('{{ in_progress_tickets }}');
+const doneTickets = Number('{{ done_tickets }}');
+
+const ctx = document.getElementById('ticketsChart');
+
+new Chart(ctx, {
+
+    type: 'doughnut',
+
+    data: {
+
+        labels: [
+            'Новые',
+            'В обработке',
+            'Завершено'
+        ],
+
+        datasets: [{
+
+            data: [
+                newTickets,
+                progressTickets,
+                doneTickets
+            ]
+
+        }]
+    }
+
+});
+
+</script>
+
+{% endblock %}

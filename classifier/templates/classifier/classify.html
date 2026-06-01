@@ -1,0 +1,47 @@
+{% extends "classifier/base.html" %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-lg-8 mx-auto">
+
+    <div class="card">
+
+      <div class="card-header">
+        <i class="bi bi-chat-left-text"></i>
+        Новое обращение
+      </div>
+
+      <div class="card-body">
+
+        <form method="post">
+
+          {% csrf_token %}
+
+          <div class="mb-3">
+
+            <label class="form-label">
+              Описание проблемы
+            </label>
+
+            {{ form.text }}
+
+          </div>
+
+          <button class="btn btn-primary w-100">
+
+            <i class="bi bi-robot"></i>
+            Проанализировать
+
+          </button>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

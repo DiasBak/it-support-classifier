@@ -1,0 +1,124 @@
+{% extends "classifier/base.html" %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+        <h2 class="fw-bold">
+            Admin Panel
+        </h2>
+
+        <p class="text-muted mb-0">
+            Управление обращениями пользователей
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="card">
+
+    <div class="card-body p-0">
+
+        <table class="table table-hover align-middle mb-0">
+
+            <thead>
+
+                <tr>
+
+                    <th>Пользователь</th>
+                    <th>Категория</th>
+                    <th>Статус</th>
+                    <th>Дата</th>
+                    <th>Действие</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for ticket in tickets %}
+
+                <tr>
+
+                    <td>
+                        {{ ticket.user.username }}
+                    </td>
+
+                    <td>
+
+                        <span class="badge bg-primary">
+                            {{ ticket.predicted_category }}
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        {% if ticket.status == 'new' %}
+
+                            <span class="badge bg-warning">
+                                Новое
+                            </span>
+
+                        {% elif ticket.status == 'progress' %}
+
+                            <span class="badge bg-info">
+                                В обработке
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-success">
+                                Завершено
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+                        {{ ticket.created_at|date:"d.m.Y H:i" }}
+                    </td>
+
+                    <td>
+
+                        <a href="/ticket/{{ ticket.id }}/update/"
+                           class="btn btn-sm btn-outline-primary">
+
+                            Изменить статус
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="5"
+                        class="text-center text-muted py-4">
+
+                        Нет обращений
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

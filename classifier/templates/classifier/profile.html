@@ -1,0 +1,132 @@
+{% extends "classifier/base.html" %}
+
+{% block content %}
+
+<div class="row g-4">
+
+  <!-- Профиль -->
+  <div class="col-lg-4">
+
+    <div class="card">
+
+      <div class="card-body text-center">
+
+        <i class="bi bi-person-circle"
+           style="font-size: 100px;">
+        </i>
+
+        <h4 class="mt-3">
+          {{ request.user.username }}
+        </h4>
+
+        <p class="text-muted">
+          {{ request.user.role }}
+        </p>
+
+        <hr>
+
+        <div class="text-start">
+
+          <p>
+            <b>Обращений:</b>
+            {{ total_tickets }}
+          </p>
+
+          <p>
+            <b>Роль:</b>
+            {{ request.user.role }}
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- Последние обращения -->
+  <div class="col-lg-8">
+
+    <div class="card">
+
+      <div class="card-header">
+        Мои обращения
+      </div>
+
+      <div class="card-body p-0">
+
+        <table class="table table-hover mb-0">
+
+          <thead>
+            <tr>
+              <th>Категория</th>
+              <th>Статус</th>
+              <th>Дата</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            {% for ticket in tickets %}
+
+            <tr>
+
+              <td>
+                {{ ticket.predicted_category }}
+              </td>
+
+              <td>
+
+                {% if ticket.status == 'new' %}
+
+                  <span class="badge bg-primary">
+                    Новое
+                  </span>
+
+                {% elif ticket.status == 'progress' %}
+
+                  <span class="badge bg-warning">
+                    В обработке
+                  </span>
+
+                {% else %}
+
+                  <span class="badge bg-success">
+                    Завершено
+                  </span>
+
+                {% endif %}
+
+              </td>
+
+              <td>
+                {{ ticket.created_at|date:"d.m.Y H:i" }}
+              </td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+              <td colspan="3" class="text-center text-muted">
+                Нет обращений
+              </td>
+            </tr>
+
+            {% endfor %}
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

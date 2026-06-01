@@ -1,0 +1,455 @@
+{% extends "classifier/base.html" %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<section class="py-5">
+
+    <div class="container">
+
+        <div class="row align-items-center g-5">
+
+            <div class="col-lg-6">
+
+                <span class="badge bg-dark mb-3 px-3 py-2">
+                    Helpdesk System
+                </span>
+
+                <h1 class="display-4 fw-bold mb-4">
+
+                    Система обработки
+                    IT-обращений
+
+                </h1>
+
+                <p class="lead text-muted mb-4">
+
+                    Web-платформа для автоматизации обработки
+                    обращений пользователей и распределения
+                    заявок между сотрудниками технической поддержки.
+
+                </p>
+
+                <div class="d-flex gap-3">
+
+                    {% if user.is_authenticated %}
+
+                        <a href="/dashboard/"
+                           class="btn btn-primary btn-lg rounded-4 px-4">
+
+                            Перейти в dashboard
+
+                        </a>
+
+                    {% else %}
+
+                        <a href="/register/"
+                           class="btn btn-primary btn-lg rounded-4 px-4">
+
+                            Начать работу
+
+                        </a>
+
+                        <a href="/login/"
+                           class="btn btn-outline-dark btn-lg rounded-4 px-4">
+
+                            Войти
+
+                        </a>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <!-- Right Side -->
+            <div class="col-lg-6 text-center">
+
+                <div class="card border-0 shadow-lg rounded-5 p-5">
+
+                    <div class="mb-4">
+
+                        <i class="bi bi-cpu text-primary"
+                           style="font-size: 90px;">
+                        </i>
+
+                    </div>
+
+                    <h3 class="fw-bold mb-3">
+
+                        ML Classification Module
+
+                    </h3>
+
+                    <p class="text-muted">
+
+                        TF-IDF + LinearSVC
+
+                    </p>
+
+                    <div class="mt-4">
+
+                        <div class="d-flex justify-content-center align-items-center mb-3">
+
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                            Автоматическая классификация обращений
+
+                        </div>
+
+                        <div class="d-flex justify-content-center align-items-center mb-3">
+
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                            Управление статусами заявок
+
+                        </div>
+
+                        <div class="d-flex justify-content-center align-items-center">
+
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                            Распределение обращений
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ABOUT -->
+<section class="py-5 bg-light">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <h2 class="fw-bold mb-3">
+
+                Возможности системы
+
+            </h2>
+
+            <p class="text-muted">
+
+                Система предназначена для обработки и классификации
+                IT-обращений пользователей.
+
+            </p>
+
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-lg-3">
+
+                <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                    <div class="card-body text-center p-4">
+
+                        <i class="bi bi-pc-display text-primary"
+                           style="font-size: 50px;">
+                        </i>
+
+                        <h5 class="fw-bold mt-3">
+
+                            Ремонт ПК
+
+                        </h5>
+
+                        <p class="text-muted">
+
+                            Диагностика и обслуживание
+                            компьютерной техники
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-3">
+
+                <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                    <div class="card-body text-center p-4">
+
+                        <i class="bi bi-router text-success"
+                           style="font-size: 50px;">
+                        </i>
+
+                        <h5 class="fw-bold mt-3">
+
+                            Сетевые технологии
+
+                        </h5>
+
+                        <p class="text-muted">
+
+                            Настройка сетевого оборудования
+                            и подключений
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-3">
+
+                <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                    <div class="card-body text-center p-4">
+
+                        <i class="bi bi-printer text-warning"
+                           style="font-size: 50px;">
+                        </i>
+
+                        <h5 class="fw-bold mt-3">
+
+                            Периферия
+
+                        </h5>
+
+                        <p class="text-muted">
+
+                            Работа с принтерами,
+                            сканерами и устройствами
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-3">
+
+                <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                    <div class="card-body text-center p-4">
+
+                        <i class="bi bi-shield-check text-danger"
+                           style="font-size: 50px;">
+                        </i>
+
+                        <h5 class="fw-bold mt-3">
+
+                            Безопасность
+
+                        </h5>
+
+                        <p class="text-muted">
+
+                            Анализ угроз и
+                            защита пользовательских данных
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ML SECTION -->
+<section class="py-5">
+
+    <div class="container">
+
+        <div class="row align-items-center g-5">
+
+            <div class="col-lg-6">
+
+                <div class="card border-0 shadow-lg rounded-5 p-5">
+
+                    <div class="text-center mb-4">
+
+                        <i class="bi bi-diagram-3 text-primary"
+                           style="font-size: 80px;">
+                        </i>
+
+                    </div>
+
+                    <h3 class="fw-bold text-center mb-3">
+
+                        Обработка обращений
+
+                    </h3>
+
+                    <p class="text-muted text-center">
+
+                        Система анализирует текст обращения
+                        и определяет его категорию.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-6">
+
+                <span class="badge bg-primary mb-3 px-3 py-2">
+                    Machine Learning
+                </span>
+
+                <h2 class="fw-bold mb-4">
+
+                    ML-классификация обращений
+
+                </h2>
+
+                <p class="text-muted mb-4">
+
+                    Модель машинного обучения помогает
+                    автоматически распределять обращения
+                    пользователей по категориям.
+
+                </p>
+
+                <div class="mb-3">
+
+                    <div class="d-flex align-items-center mb-3">
+
+                        <i class="bi bi-check-circle-fill text-success me-3"></i>
+
+                        Анализ текста обращения
+
+                    </div>
+
+                    <div class="d-flex align-items-center mb-3">
+
+                        <i class="bi bi-check-circle-fill text-success me-3"></i>
+
+                        Классификация заявок
+
+                    </div>
+
+                    <div class="d-flex align-items-center mb-3">
+
+                        <i class="bi bi-check-circle-fill text-success me-3"></i>
+
+                        Управление статусами
+
+                    </div>
+
+                    <div class="d-flex align-items-center">
+
+                        <i class="bi bi-check-circle-fill text-success me-3"></i>
+
+                        Хранение истории обращений
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CONTACTS -->
+<section class="py-5 bg-light">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <h2 class="fw-bold">
+
+                Контакты
+
+            </h2>
+
+        </div>
+
+        <div class="row g-4 justify-content-center">
+
+            <div class="col-lg-4">
+
+                <div class="card border-0 shadow-sm rounded-4 text-center p-4">
+
+                    <i class="bi bi-geo-alt text-primary"
+                       style="font-size: 40px;">
+                    </i>
+
+                    <h5 class="fw-bold mt-3">
+
+                        Город
+
+                    </h5>
+
+                    <p class="text-muted mb-0">
+
+                        Караганда
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-4">
+
+                <div class="card border-0 shadow-sm rounded-4 text-center p-4">
+
+                    <i class="bi bi-envelope text-success"
+                       style="font-size: 40px;">
+                    </i>
+
+                    <h5 class="fw-bold mt-3">
+
+                        Система поддержки
+
+                    </h5>
+
+                    <p class="text-muted mb-0">
+
+                        Обработка IT-обращений пользователей
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
