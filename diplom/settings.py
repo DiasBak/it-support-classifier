@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -80,16 +81,17 @@ WSGI_APPLICATION = "diplom.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'diplom_db',
-        'USER': 'diplom_user',
-        'PASSWORD': 'diplom123',
-        'HOST': 'localhost',
+        'NAME': 'diplom_postgres_c8qz',
+        'USER': 'diplom_postgres_c8qz_user',
+        'PASSWORD': 'ZV7jUnuJGS1h9DWD9xMoGjj52DUnRmjT',
+        'HOST': 'dpg-d8ee7bkp3tds738gf8gg-a',
         'PORT': '5432',
     }
 }
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [BASE_DIR / 'static']
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
